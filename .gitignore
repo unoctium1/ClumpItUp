@@ -9,6 +9,7 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+/[Ww]eb[Gg][Ll] [Bb]uilds/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -75,3 +76,8 @@ crashlytics-build.properties
 *.ma.meta
 *.mb
 *.mb.meta
+
+*.zip
+InitCodeMarker
+webgl_sharing
+
