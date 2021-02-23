@@ -10,10 +10,12 @@ public class Player : MonoBehaviour
 
     [SerializeField] float scale = 1f;
     float oldScale;
+    Vector3 relativeScale;
 
     private void Start()
     {
-        oldScale = playerScaler.localScale.x;
+        relativeScale = playerScaler.localScale;
+        oldScale = scale;
     }
 
     // Update is called once per frame
@@ -28,7 +30,7 @@ public class Player : MonoBehaviour
         {
             oldScale = scale;
 
-            Vector3 scaleVec = scale * Vector3.one;
+            Vector3 scaleVec = scale * relativeScale;
 
             cam.transform.localScale = scaleVec;
             playerScaler.localScale = scaleVec;

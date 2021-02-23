@@ -32,4 +32,9 @@ public class RollingBall : MonoBehaviour
 
         rb.AddForce(targetDirection * speed);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+    }
 }
