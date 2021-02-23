@@ -8,6 +8,7 @@
         _Amplitude("Amplitude", Range(0, 1)) = 0.1
         _GlowSpeed("GlowSpeed", Range(0, 2)) = 1
         _Highlight("HighlightColor", Color) = (0.01013041, 0, 1, 0)
+        _Emission("Emission", Range(0,3)) = 1
     }
     SubShader
     {
@@ -112,27 +113,33 @@
             float3 objPos;
         };
 
+        float _Speed;
+        float _Amplitude;
+
         void vert(inout appdata_full v, out Input o){
             UNITY_INITIALIZE_OUTPUT(Input,o);
+            float speed = _Time.x * _Speed;
+            float noise;
+            float3 verts = v.vertex + (speed.xxx);
+            Unity_SimpleNoise_float((verts.xy), 50, noise);
+            v.vertex.xyz += v.normal * (_Amplitude * noise);
+
             o.objPos = v.vertex;
         }
 
         float4 _MainColor;
         float _RimPower;
-        float _Speed;
-        float _Amplitude;
         float _GlowSpeed;
         float4 _Highlight;
+        float _Emission;
 
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             float4 color = _MainColor;
-            float speed = _Speed;
-            speed *= _Time.x;
-            float3 pos = IN.objPos + (speed.xxx);
+            float gSpeed = _Time.x * _GlowSpeed;;
+            float3 pos = IN.objPos + (gSpeed.xxx);
             float voronoi;
             Unity_Voronoi_float((pos.xy), 2, 5, voronoi);
-            float gSpeed = _Time.x * _GlowSpeed;;
             float3 gPos = IN.objPos + (gSpeed.xxx);
             float noise;
             Unity_SimpleNoise_float((gPos.xy), 50, noise);
@@ -143,7 +150,7 @@
             float fresnel = pow((1.0 - saturate(dot(normalize(IN.worldNormal), normalize(IN.viewDir)))), _RimPower);
             color *= (fresnel.xxxx);
             o.Albedo = color.xyz;
-            o.Emission = color.xyz;
+            o.Emission = color.xyz * _Emission;
             o.Metallic = 0;
             o.Smoothness = 0.5;
             o.Alpha = fresnel;
