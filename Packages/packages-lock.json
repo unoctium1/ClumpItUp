@@ -71,24 +71,40 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.lego.materials": {
-      "version": "2.1.0",
+      "version": "file:com.unity.lego.materials@2.1.0",
       "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.unity.lego.modelimporter": {
-      "version": "3.2.0",
+      "version": "file:com.unity.lego.modelimporter@3.2.0",
       "depth": 0,
-      "source": "registry",
+      "source": "embedded",
       "dependencies": {
         "com.unity.textmeshpro": "2.0.1",
         "com.unity.lego.materials": "2.1.0"
+      }
+    },
+    "com.unity.probuilder": {
+      "version": "4.4.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.settings-manager": "1.0.3"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.progrids": {
+      "version": "3.0.3-preview.6",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.settings-manager": "1.0.2"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.settings-manager": {
-      "version": "1.0.2",
+      "version": "1.0.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
