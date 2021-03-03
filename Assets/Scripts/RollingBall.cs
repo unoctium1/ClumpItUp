@@ -1,40 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class RollingBall : MonoBehaviour
+namespace Katamari
 {
-    [SerializeField] private float speed = 1f;
-
-    private Rigidbody rb;
-
-    private float movementX;
-    private float movementY;
-
-    private Camera cam;
-    [SerializeField] private bool cameraRelativeMovement = true;
-
-    // Start is called before the first frame update
-    void Start()
+    public class RollingBall : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody>();
-        cam = Camera.main;
-    }
+        [SerializeField] private float speed = 1f;
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        Vector3 right = cameraRelativeMovement ? cam.transform.right : Vector3.right;
-        Vector3 forward = cameraRelativeMovement ? cam.transform.forward : Vector3.forward;
+        private Rigidbody rb;
 
-        Vector3 targetDirection = right * Input.GetAxisRaw("Horizontal");
-        targetDirection += forward * Input.GetAxisRaw("Vertical");
+        private float movementX;
+        private float movementY;
 
-        rb.AddForce(targetDirection * speed);
-    }
+        private Camera cam;
+        [SerializeField] private bool cameraRelativeMovement = true;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        
+        // Start is called before the first frame update
+        void Start()
+        {
+            rb = GetComponent<Rigidbody>();
+            cam = Camera.main;
+
+        }
+
+        // Update is called once per frame
+        void FixedUpdate()
+        {
+            Vector3 right = cameraRelativeMovement ? cam.transform.right : Vector3.right;
+            Vector3 forward = cameraRelativeMovement ? cam.transform.forward : Vector3.forward;
+
+            Vector3 targetDirection = right * Input.GetAxisRaw("Horizontal");
+            targetDirection += forward * Input.GetAxisRaw("Vertical");
+
+            rb.AddForce(targetDirection * speed);
+        }
     }
 }

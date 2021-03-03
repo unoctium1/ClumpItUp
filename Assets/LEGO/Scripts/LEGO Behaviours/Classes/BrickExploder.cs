@@ -19,7 +19,16 @@ namespace Unity.LEGO.Behaviours
         {
             if (m_Instance)
             {
-                m_Instance.Explode(brick);
+                m_Instance.Explode(brick, 10.0f, out _);
+            }
+        }
+
+        public static void SeperateConnectedBricks(Brick brick, out HashSet<Brick> connectedBricks, float force = 10.0f)
+        {
+            connectedBricks = null;
+            if (m_Instance)
+            {
+                m_Instance.Explode(brick, force, out connectedBricks);
             }
         }
 
@@ -35,10 +44,10 @@ namespace Unity.LEGO.Behaviours
             }
         }
 
-        void Explode(Brick brick)
+        void Explode(Brick brick, float force, out HashSet<Brick> connectedBricks)
         {
             // Find connected bricks.
-            var connectedBricks = brick.GetConnectedBricks();
+            connectedBricks = brick.GetConnectedBricks();
             connectedBricks.Add(brick);
 
             // Find bounds of connected bricks.
@@ -78,7 +87,7 @@ namespace Unity.LEGO.Behaviours
                 {
                     rigidBody = connectedBrick.gameObject.AddComponent<Rigidbody>();
                 }
-                rigidBody.AddExplosionForce(10.0f, connectedBounds.center, connectedBounds.extents.magnitude, 5.0f, ForceMode.VelocityChange);
+                rigidBody.AddExplosionForce(force, connectedBounds.center, connectedBounds.extents.magnitude, 5.0f, ForceMode.VelocityChange);
             }
 
             // Play audio.
