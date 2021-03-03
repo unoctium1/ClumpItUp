@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/LEGO/Scenes/Menu Intro.unity
     guid: 77504b30d92956e4ab45b9e740f2d454
   - enabled: 1
-    path: Assets/AddOns/MgLEGO Knights Kingdom/Scenes/Knights Kingdom.unity
-    guid: 24dbce49317234c0183fa4ac2cbda4d0
+    path: Assets/Scenes/Katamari.unity
+    guid: f7c8cf37c2553ae42922e9b082a14e7d
   - enabled: 1
     path: Assets/LEGO/Scenes/Menu Win.unity
     guid: 05cfb1c697d1a4d22b5edccf653ebd94
