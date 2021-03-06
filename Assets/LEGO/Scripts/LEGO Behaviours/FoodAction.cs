@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using Katamari;
 using Unity.LEGO.Behaviours.Triggers;
 using UnityEngine;
+using System;
 
 namespace Unity.LEGO.Behaviours.Actions
 {
-    public class LegoFoodBehaviour : Action
+    public class FoodAction : Action
     {
+
+        public Action<FoodAction> OnCollected;
+
         [SerializeField, Range(0f, 15f)] private float m_Size;
 
         bool m_Initialised;
@@ -91,6 +95,8 @@ namespace Unity.LEGO.Behaviours.Actions
 
                         // Delay destruction of LEGOBehaviours one frame to allow multiple Pickup Actions to be collected.
                         m_Collected = true;
+
+                        OnCollected?.Invoke(this);
 
                     }
                 }

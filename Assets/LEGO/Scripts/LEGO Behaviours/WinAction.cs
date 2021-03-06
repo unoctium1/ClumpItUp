@@ -17,6 +17,11 @@ namespace Unity.LEGO.Behaviours.Actions
                     result.Title = "Collect all the Pickups";
                     result.Description = "Go get 'em!";
                     result.ProgressType = ObjectiveProgressType.Amount;
+                }else if (triggerType == typeof(FoodTrigger))
+                {
+                    result.Title = "Eat all the food";
+                    result.Description = "Collect and eat every brick!";
+                    result.ProgressType = ObjectiveProgressType.Amount;
                 }
                 else if (triggerType == typeof(TouchTrigger))
                 {
