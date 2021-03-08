@@ -6,6 +6,7 @@ namespace Unity.LEGO.Game
     {
         None,
         Amount,
-        Time
+        Time,
+        Amountf
     }
 }

@@ -23,6 +23,12 @@ namespace Unity.LEGO.Behaviours.Actions
                     result.Description = "Collect and eat every brick!";
                     result.ProgressType = ObjectiveProgressType.Amount;
                 }
+                else if (triggerType == typeof(PlayerSizeTrigger))
+                {
+                    result.Title = "Get Bigger";
+                    result.Description = "Get your ball up to the specified size!";
+                    result.ProgressType = ObjectiveProgressType.Amountf;
+                }
                 else if (triggerType == typeof(TouchTrigger))
                 {
                     result.Title = "Touch the Object";

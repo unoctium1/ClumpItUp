@@ -4,22 +4,30 @@ namespace Katamari
 {
     public class RollingBall : MonoBehaviour
     {
-        [SerializeField] private float speed = 1f;
+        [SerializeField] private float initialSpeed = 1f;
 
         private Rigidbody rb;
+        private new Renderer renderer;
 
         private float movementX;
         private float movementY;
 
+        private float speed;
+
         private Camera cam;
         [SerializeField] private bool cameraRelativeMovement = true;
 
+        public Vector3 Velocity => rb.velocity;
+
+        public Material SphereMat => renderer.material;
+
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             rb = GetComponent<Rigidbody>();
             cam = Camera.main;
-
+            renderer = GetComponent<Renderer>();
+            speed = initialSpeed;
         }
 
         // Update is called once per frame
@@ -32,6 +40,12 @@ namespace Katamari
             targetDirection += forward * Input.GetAxisRaw("Vertical");
 
             rb.AddForce(targetDirection * speed);
+        }
+
+        public void UpdateSize(float size)
+        {
+            rb.mass = size;
+            speed = initialSpeed * size;
         }
     }
 }

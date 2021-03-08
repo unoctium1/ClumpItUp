@@ -39,6 +39,10 @@ namespace Unity.LEGO.Behaviours
                         }
                         return seconds.ToString();
                     }
+                case ObjectiveProgressType.Amountf:
+                    {
+                        return m_Trigger.Progress*.01f + "cm/" + m_Trigger.Goal*.01f + "cm";
+                    }
             }
 
             return string.Empty;
