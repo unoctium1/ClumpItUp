@@ -19,10 +19,12 @@ namespace Katamari
         float oldScale;
         Vector3 relativeScale;
         float relativeScaleFactor;
+        const int maxBricks = 40; //increase this on PC, decrease on web
 
         List<LegoInPlayerBall> bricksEaten = new List<LegoInPlayerBall>();
 
         readonly int amplitudeID = Shader.PropertyToID("_Amplitude");
+        readonly int highlightID = Shader.PropertyToID("_Highlight");
 
 
         void Awake()
@@ -35,17 +37,18 @@ namespace Katamari
         {
             foreach (Brick b in bricks)
             {
-
+                
                 var component = b.gameObject.AddComponent<LegoInPlayerBall>();
                 Vector3 localPosition = Random.insideUnitSphere * 0.5f * scale;
                 component.Initialize(legoBlockContainer, localPosition, b, absorptionSpeed);
                 bricksEaten.Add(component);
             }
-            UpdateSize(size);
+
+            UpdateSize(size);//, bricksEaten[bricksEaten.Count-1].BrickColor);
         }
 
 
-        public float MinPickupSize { get => scale * 0.5f; }
+        public float MinPickupSize { get => scale * 0.75f; }
         public float Scale { get => scale * relativeScaleFactor; }
 
         private void Start()
@@ -74,6 +77,24 @@ namespace Katamari
                 sphere.transform.localScale = scaleVec;
                 this.transform.localScale = Vector3.one * scale;
             }
+            
+            if(bricksEaten.Count > maxBricks)
+            {
+                Debug.Log("Clearing bricks");
+                int bricksToDestroy = bricksEaten.Count - maxBricks;
+                LegoInPlayerBall[] toDestroy = new LegoInPlayerBall[bricksToDestroy];
+                for(int i = 0; i < bricksToDestroy; i++)
+                {
+                    toDestroy[i] = bricksEaten[i];
+                }
+                bricksEaten.RemoveRange(0, bricksToDestroy);
+                foreach(var brick in toDestroy)
+                {
+                    Destroy(brick);
+                }
+                
+
+            }
         }
 
         private void FixedUpdate()
@@ -89,7 +110,7 @@ namespace Katamari
             }
         }
 
-        private void UpdateSize(float sizeToAdd)
+        private void UpdateSize(float sizeToAdd)//, Color brickColor)
         {
             eatenSize += sizeToAdd;
             float endValue = Mathf.Pow(eatenSize, 1f / 3f) * 1.5f;
@@ -98,6 +119,7 @@ namespace Katamari
             sequence
                 .Append(DOTween.To(() => scale, x => scale = x, endValue, growthSpeed))
                 .Join(sphere.SphereMat.DOFloat(0.05f, amplitudeID, growthSpeed));
+                //.Join(sphere.SphereMat.DOColor(brickColor, highlightID, growthSpeed));
             sequence.Play();
             sphere.UpdateSize(endValue);
         }

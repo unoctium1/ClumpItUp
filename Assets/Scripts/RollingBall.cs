@@ -5,6 +5,7 @@ namespace Katamari
     public class RollingBall : MonoBehaviour
     {
         [SerializeField] private float initialSpeed = 1f;
+        private float maxSpeed;
 
         private Rigidbody rb;
         private new Renderer renderer;
@@ -28,6 +29,7 @@ namespace Katamari
             cam = Camera.main;
             renderer = GetComponent<Renderer>();
             speed = initialSpeed;
+            maxSpeed = 1.5f * speed;
         }
 
         // Update is called once per frame
@@ -40,12 +42,23 @@ namespace Katamari
             targetDirection += forward * Input.GetAxisRaw("Vertical");
 
             rb.AddForce(targetDirection * speed);
+
+            float curVelocity = rb.velocity.magnitude;
+            if(curVelocity > maxSpeed)
+            {
+                float brakeSpeed = curVelocity - maxSpeed;
+                Vector3 brake = rb.velocity.normalized * brakeSpeed;
+
+                rb.AddForce(-brake);
+
+            }
         }
 
         public void UpdateSize(float size)
         {
             rb.mass = size;
             speed = initialSpeed * size;
+            maxSpeed = 1.5f * speed;
         }
     }
 }

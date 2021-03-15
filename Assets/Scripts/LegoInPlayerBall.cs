@@ -10,11 +10,13 @@ namespace Katamari
         List<Collider> m_Colliders = new List<Collider>();
         Collider col;
         Rigidbody rb;
-
+        Renderer r;
         Brick brick;
         //Transform parent; // Since we can't scale lego, use this to essentially parent it
 
         const int Layer = 14;
+
+        public Color BrickColor => r.sharedMaterial.color;
 
         //protected new Scope m_Scope = Scope.Brick;
 
@@ -24,6 +26,7 @@ namespace Katamari
             transform.parent = parent;
             this.brick = brick;
             rb = GetComponent<Rigidbody>();
+            //r = GetComponent<Renderer>();
             rb.mass = 0.1f;
             rb.isKinematic = true;
             foreach (var part in brick.parts)
@@ -75,6 +78,11 @@ namespace Katamari
                 rb.velocity = Vector3.zero;
                 rb.Sleep();
             }
+        }
+
+        private void OnDestroy()
+        {
+            Destroy(this.gameObject);
         }
     }
 }
